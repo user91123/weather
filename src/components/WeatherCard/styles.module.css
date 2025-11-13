@@ -1,0 +1,88 @@
+.card {
+  background: linear-gradient(160deg, #1e3c72, #2a5298);
+  border-radius: 24px;
+  padding: 20px 30px;
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  color: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  margin: 0 auto;
+  font-family: "Montserrat", sans-serif;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.6),
+    0 8px 20px rgba(0, 0, 50, 0.4),
+    inset 0 0 25px rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+  
+  .cityBlock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    top: 20px;
+    left: 30px;
+  }
+  
+  .cityName {
+    font-size: 24px;
+    font-weight: 400;
+  }
+  
+  .locationIcon {
+    height: 25px;
+    width: 25px;
+  }
+  
+  .mainInfo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .thermometerIcon {
+    height: 80px;
+    width: 40px;
+  }
+  
+  .degrees {
+    font-size: 65px;
+    font-weight: 300;
+  }
+  
+  /* Дата — чуть ниже центра, слева */
+  .date {
+    position: absolute;
+    bottom: 150px;
+    left: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #e0e0e0;
+    border-bottom: 1px solid #FFFFFF;
+  }
+  
+  /* Доп.инфо — без изменений */
+  .addInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  
+  .addInfoItem {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    flex: 1;
+  }
+  

@@ -1,0 +1,63 @@
+.header {
+    width: 100%;
+    padding: 20px 40px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    position: relative;
+    width: 360px;
+    height: 105px;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 55px;
+    height: 55px;
+}
+
+.title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 40px;
+    font-weight: 600;
+  
+}
+
+.time {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 20px;
+  
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+    font-size: 25px;
+}
+
+.navButton {
+    padding-bottom: 5px;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+    color: #FFFFFF;
+}
+
+.navButton:hover,
+.navButton.active {
+    border-bottom: 2px solid #fff;
+    font-weight: 600;
+    color: #FFFFFF;
+}
