@@ -1,0 +1,76 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between; /* слева ссылка, справа заголовок и кнопка */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.headerLeft {
+  margin-top: 46px;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #555;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.headerLeft:hover {
+  text-decoration: underline;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* сдвигаем вправо */
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.clearButton {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #555;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clearButton:hover {
+  background-color: #777;
+}
+
+.noHistoryTitle {
+  font-size: 36px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 50px;
+  margin-right: 50px;
+}
+
+.card {
+  background: #1e3c72;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  width: 100%;
+}

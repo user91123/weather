@@ -10,17 +10,52 @@ const api = axios.create({
 
 export const fetchWeather = createAsyncThunk(
   "weather/fetchWeather",
-  async ({ q }, thunkAPI) => {
+  async ({ q, lat, lon }, thunkAPI) => {
     try {
       const { data } = await api.get("", {
         params: {
           q,
+          lat,
+          lon,
           units: "metric",
           lang: "ru",
           appid: API_KEY,
         },
       });
       return data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return thunkAPI.rejectWithValue({
+          type: "not_found",
+          message: "City not found",
+        });
+      }
+      return thunkAPI.rejectWithValue({
+        type: "other",
+        message: error.message,
+      });
+    }
+  }
+);
+
+export const fetchHourlyWeather = createAsyncThunk(
+  "weather/fetchHourlyWeather",
+  async ({ q, lat, lon }, thunkAPI) => {
+    try {
+      const { data } = await axios.get(
+        "https://api.openweathermap.org/data/2.5/forecast",
+        {
+          params: {
+            q,
+            lat,
+            lon,
+            units: "metric",
+            lang: "ru",
+            appid: API_KEY,
+          },
+        }
+      );
+      return data.list;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -29,9 +64,13 @@ export const fetchWeather = createAsyncThunk(
 
 const initialState = {
   searchValue: "",
+  day: "today",
   weather: {},
-  status: "loading",
-  error: null,
+  hourlyWeather: [],
+  weatherStatus: "loading",
+  hourlyWeatherStatus: "loading",
+  weatherError: null,
+  hourlyWeatherError: null,
 };
 
 const weatherSlice = createSlice({
@@ -41,28 +80,43 @@ const weatherSlice = createSlice({
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
+    setDay(state, action) {
+      state.day = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeather.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.weatherStatus = "loading";
+        state.weatherError = null;
         state.weather = {};
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
-        state.status = "success";
+        state.weatherStatus = "success";
         state.weather = action.payload;
       })
       .addCase(fetchWeather.rejected, (state, action) => {
-        state.status = "error";
-        state.error = action.payload;
+        state.weatherStatus = "error";
+        state.weatherError = action.payload;
         state.weather = {};
+      })
+      .addCase(fetchHourlyWeather.pending, (state) => {
+        state.hourlyWeatherStatus = "loading";
+        state.hourlyWeatherError = null;
+        state.hourlyWeather = [];
+      })
+      .addCase(fetchHourlyWeather.fulfilled, (state, action) => {
+        state.hourlyWeatherStatus = "success";
+        state.hourlyWeather = action.payload;
+      })
+      .addCase(fetchHourlyWeather.rejected, (state, action) => {
+        state.hourlyWeatherStatus = "error";
+        state.hourlyWeatherError = action.payload;
+        state.hourlyWeather = [];
       });
   },
 });
 
 export const weatherSelector = (state) => state.weather;
-
-export const { setSearchValue } = weatherSlice.actions;
-
+export const { setSearchValue, setDay } = weatherSlice.actions;
 export default weatherSlice.reducer;

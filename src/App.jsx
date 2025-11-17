@@ -1,14 +1,15 @@
-import Header from "./components/Header/Header";
-import SearchInput from "./components/SearchInput/SearchInput";
-import WeatherCard from "./components/WeatherCard/WeatherCard";
 import "./index.css";
+import { Routes, Route } from "react-router-dom";
+import HistoryPage from "./pages/HistoryPage/HistoryPage";
+import HomePage from "./pages/HomePage/HomePage";
 
 function App() {
   return (
     <div className="appContainer">
-      <Header />
-      <SearchInput />
-      <WeatherCard />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/history" element={<HistoryPage />} />
+      </Routes>
     </div>
   );
 }
