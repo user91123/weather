@@ -1,68 +1,52 @@
 import React from "react";
-import { getSearchHistory } from "../../helpers/localeStorage";
-import styles from "../HistoryPage/styles.module.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setSearchValue } from "../../redux/slices/weatherSlice";
+import styles from "./styles.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  clearHistory,
+  setSearchValue,
+  weatherSelector,
+} from "../../redux/slices/weatherSlice";
+import HistoryHeader from "./HistoryHeader.jsx";
+import HistoryCard from "./HistoryCard.jsx";
+import EmptyHistory from "./EmptyHistory.jsx";
+import SearchHistory from "./SeacrhHistory.jsx";
 
 export default function HistoryPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [history, setHistory] = React.useState([]);
+  const { historyItems } = useSelector(weatherSelector);
 
-  React.useEffect(() => {
-    setHistory(getSearchHistory());
-  }, []);
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   const onGoHome = () => {
     dispatch(setSearchValue(""));
     navigate("/");
   };
 
-  if (history.length === 0)
-    return (
-      <div className={styles.header}>
-        <Link
-          onClick={() => onClearSearchValue()}
-          className={styles.headerLeft}
-          to="/"
-        >
-          Home Page
-        </Link>
-        <p className={styles.noHistoryTitle}>No search history yet</p>
-      </div>
-    );
+  const onCityClick = (city) => {
+    dispatch(setSearchValue({ city, fromHistory: true }));
+    navigate("/");
+  };
+
+  if (!historyItems || historyItems.length === 0)
+    return <EmptyHistory onGoHome={onGoHome} />;
+
+  const filteredHistory = historyItems.filter((entry) =>
+    entry.city.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <button onClick={onGoHome} className={styles.headerLeft}>
-          Home Page
-        </button>
-        <div className={styles.headerRight}>
-          <h1 className={styles.title}>Search History</h1>
-          <button
-            className={styles.clearButton}
-            onClick={() => {
-              localStorage.removeItem("searchHistory");
-              setHistory([]);
-            }}
-          >
-            Clear History
-          </button>
-        </div>
-      </div>
+      <HistoryHeader
+        onGoHome={onGoHome}
+        onClear={() => dispatch(clearHistory())}
+      />
 
-      {history.map((entry, index) => (
-        <div key={index} className={styles.card}>
-          <h2>{entry.city}</h2>
-          <p>
-            {Math.round(entry.weather.main?.temp)}°C,{" "}
-            {entry.weather.weather?.[0]?.description}
-          </p>
-          <p>{new Date(entry.timestamp).toLocaleString()}</p>
-        </div>
+      <SearchHistory searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
+      {filteredHistory.map((entry, index) => (
+        <HistoryCard key={index} entry={entry} onClick={onCityClick} />
       ))}
     </div>
   );

@@ -1,15 +1,5 @@
-export const saveSearchHistory = (city, weatherData) => {
-  const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-
-  const newEntry = {
-    city,
-    weather: weatherData,
-    timestamp: new Date().toISOString(),
-  };
-
-  const updated = [newEntry, ...history];
-
-  localStorage.setItem("searchHistory", JSON.stringify(updated));
+export const saveSearchHistory = (historyArray) => {
+  localStorage.setItem("searchHistory", JSON.stringify(historyArray));
 };
 
 export const getSearchHistory = () => {

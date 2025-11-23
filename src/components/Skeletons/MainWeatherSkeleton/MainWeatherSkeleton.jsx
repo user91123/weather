@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "../WeatherCardSkeleton/styles.module.css";
+import styles from "../MainWeatherSkeleton/styles.module.css";
 
-export function WeatherCardSkeleton() {
+export function MainWeatherSkeleton() {
   return (
     <div className={styles.largeCard}>
       <div className={styles.cityBlock}></div>

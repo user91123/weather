@@ -1,45 +1,32 @@
-import React, { useRef } from "react";
-import styles from "../SearchInput/styles.module.css";
+// components/SearchHistory.jsx
+import React from "react";
+import styles from "./styles.module.css";
 import searchIcon from "../../assets/icons/search-input-icon.svg";
 import searchClearIcon from "../../assets/icons/search-input-clear-icon.svg";
-import { setSearchValue } from "../../redux/slices/weatherSlice";
-import { useDispatch } from "react-redux";
 
-export default function SearchInput() {
-  const [localValue, setLocalValue] = React.useState("");
-  const inputRef = useRef();
-  const dispatch = useDispatch();
+export default function SearchHistory({ searchTerm, setSearchTerm }) {
+  const inputRef = React.useRef();
 
   const onChangeInput = (e) => {
-    setLocalValue(e.target.value);
-  };
-
-  const onKeyDown = (e) => {
-    if (e.key === "Enter") {
-      dispatch(setSearchValue(localValue));
-    }
+    setSearchTerm(e.target.value);
   };
 
   const clearInput = () => {
-    setLocalValue("");
-    dispatch(setSearchValue(""));
+    setSearchTerm("");
     inputRef.current.focus();
   };
 
   return (
     <div className={styles.wrapper}>
       <img className={styles.searchIcon} src={searchIcon} alt="Search icon" />
-
       <input
         ref={inputRef}
         className={styles.input}
-        placeholder="Search location..."
-        value={localValue}
+        placeholder="Search history..."
+        value={searchTerm}
         spellCheck="false"
         onChange={onChangeInput}
-        onKeyDown={onKeyDown}
       />
-
       <img
         onClick={clearInput}
         className={styles.searchClearIcon}
